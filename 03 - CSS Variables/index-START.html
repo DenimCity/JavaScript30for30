@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
 </head>
-<body>
-  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
+<body>
+  <h2>Update CSS Variables with
+    <span class='hl'>JS</span>
+  </h2>
+<!-- data attribute is a custom attribute that you can make up youll add data-(whatever) -->
   <div class="controls">
     <label for="spacing">Spacing:</label>
-    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px" data-name="jean" data-appple="">
 
     <label for="blur">Blur:</label>
     <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
@@ -21,6 +25,22 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
+    /*css variables you must define them on a variable  */
+    :root {
+      --base:red;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+    
+    .hl{
+      color:var(--base);
+    }
 
     /*
       misc styles, nothing to do with CSS variables
@@ -40,12 +60,26 @@
     }
 
     input {
-      width:100px;
+      width: 100px;
     }
   </style>
 
   <script>
+    const inputs = document.querySelectorAll('.controls input')
+
+    function handleUpdate() {
+      // data set is an object that will contain all the data from that specific element. using that custom data- ex data-name="jean"
+      //if you console.log(this.dataset); it will print out the variables for you in a in object in the console in your dev tools
+      const suffix = this.dataset.sizing || '';
+      //updating  variable in this case our input use name 
+      // console.log(this.name);
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix)
+    }
+
+    inputs.forEach(input => input.addEventListener('change',handleUpdate ))
+    inputs.forEach(input => input.addEventListener('mousemove',handleUpdate ))
   </script>
 
 </body>
+
 </html>
