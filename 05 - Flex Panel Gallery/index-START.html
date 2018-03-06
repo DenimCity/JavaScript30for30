@@ -24,6 +24,7 @@
     .panels {
       min-height:100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -32,8 +33,6 @@
       color:white;
       text-align: center;
       align-items:center;
-      /* Safari transitionend event.propertyName === flex */
-      /* Chrome + FF transitionend event.propertyName === flex-grow */
       transition:
         font-size 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
         flex 0.7s cubic-bezier(0.61,-0.19, 0.7,-0.11),
@@ -41,6 +40,12 @@
       font-size: 20px;
       background-size:cover;
       background-position:center;
+      /* flex: 1 tells the children of this container to evenly spred across the div */
+      flex:1;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
     }
 
 
@@ -54,7 +59,17 @@
       margin:0;
       width: 100%;
       transition:transform 0.5s;
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    .panel > *:first-child {transform: translateY(-100%);}
+    .panel.open-active > *:first-child{transform: translateY(0);}
+    .panel > *:last-child {transform: translateY(100%);}
+    .panel.open-active > *:last-child{transform: translateY(0);}
+
 
     .panel p {
       text-transform: uppercase;
@@ -67,6 +82,8 @@
     }
 
     .panel.open {
+      /* we gave the orignal class a flex of 1, but when this class is actived it will take 5x of the space */
+      flex:5;
       font-size:40px;
     }
 
@@ -102,6 +119,24 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll('.panel')
+    
+    function toggleOpen(){
+      console.log('hello');
+      this.classList.toggle('open')
+    }
+
+    function toggleActive(event){
+      console.log(event.propertyName);
+      // created a if statement that will cover all browsers 
+      // if the event property name includes flex run this WebGLActiveInfo
+      // on different browswer flex is read as flex grow and some are just flex grow
+      if(event.propertyName.includes('flex')){
+        this.classList.toggle('open-active')
+      }
+    }
+  panels.forEach(panel => panel.addEventListener('click', toggleOpen))
+  panels.forEach(panel => panel.addEventListener('transitionend', toggleActive))
 
   </script>
 
