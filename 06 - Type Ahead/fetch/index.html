@@ -40,12 +40,13 @@
         // creates a regular expressio for matching text with a pattern
       })
     }
-// this function is going to put a comma in after our numbers 
+    // this function is going to put a comma in after our numbers 
 
-function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-    function displayMatches(){
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    function displayMatches() {
       // console.log(this.value);
       const matchArray = findMatches(this.value, cities)
       // console.log(matchArray);
@@ -55,17 +56,17 @@ function numberWithCommas(x) {
         const stateName = place.state.replace(regex, `<span class="h1">${this.value}</span>`)
         return `
         <li>
-          <span class="name">${cityName}, ${stateName} </span>
-          <span class="population">${numberWithCommas(place.population)}</span>
-          </li>
+        <span class="name">${cityName}, ${stateName}</span>
+        <span class="population">${numberWithCommas(place.population)}</span>
+      </li>
         `
       }).join('')
       //without join it will return multiple arrays
       //with join it will return on giant array with strings
-      suggestions.innerHTML = html
+      suggestions.innerHTML = html;
 
     }
-// using the dev tools we found the class name we want to listen to 
+    // using the dev tools we found the class name we want to listen to 
     const searchInput = document.querySelector('.search')
     const suggestions = document.querySelector('.suggestions')
 
